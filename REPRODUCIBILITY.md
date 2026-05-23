@@ -31,7 +31,7 @@ This document provides step-by-step instructions for reproducing the reported va
 
 ### Baseline Methods
 
-The baseline results in Table 2 are reproduced directly from the values reported in the respective original publications:
+The baseline results in Table 3 are reproduced directly from the values reported in the respective original publications:
 - TADCNN [31]: 66.64% (10a)
 - RLITNN [32]: 63.84% (10a), 65.32% (10b)
 - ICRNNA [11]: 63.24% (10a), 65.39% (10b)
@@ -67,7 +67,7 @@ The per-SNR accuracy values for baseline methods in Table 3 are reproduced from 
 - CNN-BiLSTM-DNN [8]: Per-SNR values for both datasets from the original paper
 - MCLDNN [41]: Per-SNR values for both datasets from the original paper
 
-Empty entries in Table 3 indicate that the corresponding method did not report accuracy at that SNR level.
+Empty entries in Table 2 indicate that the corresponding method did not report accuracy at that SNR level.
 
 ---
 
