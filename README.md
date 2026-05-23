@@ -1,3 +1,15 @@
-**Low-SNR-aware Self-Calibrating Complex Temporal Network (LowSNR-SCCTN)** embeds noise awareness directly into the learning process. The proposed architecture integrates multiple complementary components: complex-valued convolution augmented with SNR-dependent soft-threshold shrinkage, bidirectional LSTM layers for temporal modeling, noise-adaptive recalibration through Squeeze-and-Excitation and Feature-wise Linear Modulation (FiLM), and a noise-aware Transformer encoder whose attention dynamics are modulated by a learned SNR embedding. In addition to the architectural design, a class- and SNR-balanced sampling strategy is employed, together with a multi-task learning formulation that jointly estimates the modulation class and the corresponding SNR, encouraging the network to learn noise-resilient representations. The results of our experiments conducted on the RadioML2016.10a and RadioML2016.10b data sets show that our proposed LowSNR-SCCTN provides high overall classification rates while providing significant improvements in terms of performance for classifying modulations of radio signals with low SNRs.
+# LowSNR-SCCTN: Low-SNR-aware Self-Calibrating Complex Temporal Network
 
-<img width="640" height="370" alt="image" src="https://github.com/user-attachments/assets/bcec1e98-8fe8-47e0-b159-c2cbf18a2d65" />
+This repository contains the official implementation of the paper:
+**"A Novel Noise-Adaptive Deep Learning based Architecture for Automatic Modulation Classification"**
+
+## Requirements
+- Python 3.8+
+- TensorFlow 2.x
+- NumPy
+- scikit-learn
+- Kaggle Cloud Platform (NVIDIA Tesla P100 GPU, 16 GB)
+
+## Installation
+```bash
+pip install tensorflow numpy scikit-learn
