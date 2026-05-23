@@ -1,12 +1,57 @@
-import numpy as np, tensorflow as tf
+# Copyright (c) 2026 Haveen Yaseen Hussein AL-Zahawi  et al.
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+"""
+Class- and SNR-balanced sampling with phase rotation augmentation.
+"""
+
+import numpy as np
+import tensorflow as tf
+
 
 def make_balanced_class_snr_dataset(
     X, Y, SNR_vec, batch=512, num_classes=None, augment=True, shuffle=True
 ):
+    """
+    Creates a balanced dataset where each batch contains an equal number
+    of samples from each (modulation class, SNR bucket) pair.
+    
+    SNR buckets: <= -10 dB, (-10, 0] dB, (0, 6] dB, > 6 dB
+    
+    Args:
+        X: I/Q samples (N, T, 2)
+        Y: Labels as integer (N,) or one-hot (N, K)
+        SNR_vec: SNR values (N,) or (N, 1)
+        batch: Batch size
+        num_classes: Number of modulation classes
+        augment: Whether to apply phase rotation augmentation
+        shuffle: Whether to shuffle indices within each batch
+    
+    Returns:
+        tf.data.Dataset yielding ((iq, snr), (mod_out, snr_out)) tuples
+    """
     X = np.asarray(X, dtype=np.float32)
     Y = np.asarray(Y)
     SNR_vec = np.asarray(SNR_vec, dtype=np.float32)
 
+    # Unify labels
     if Y.ndim == 1:
         y_int = Y.astype(np.int64)
         if num_classes is None:
@@ -20,6 +65,7 @@ def make_balanced_class_snr_dataset(
     else:
         raise ValueError("Y must be shape (N,) or (N,K)")
 
+    # Unify SNR shape
     if SNR_vec.ndim == 1:
         SNR_vec = SNR_vec[:, None]
     elif SNR_vec.ndim == 2 and SNR_vec.shape[1] == 1:
@@ -28,14 +74,19 @@ def make_balanced_class_snr_dataset(
         raise ValueError("SNR_vec must be shape (N,) or (N,1)")
     SNR_vec = np.clip(SNR_vec, -40.0, 40.0).astype(np.float32)
 
+    # SNR bucketing
     def snr_bucket(v):
-        if v <= -10: return 0
-        elif v <= 0: return 1
-        elif v <= 6: return 2
-        else:        return 3
+        if v <= -10:
+            return 0
+        elif v <= 0:
+            return 1
+        elif v <= 6:
+            return 2
+        else:
+            return 3
 
-    buckets = {(c,b): [] for c in range(num_classes) for b in range(4)}
-    for i,(c,s) in enumerate(zip(y_int, SNR_vec.squeeze())):
+    buckets = {(c, b): [] for c in range(num_classes) for b in range(4)}
+    for i, (c, s) in enumerate(zip(y_int, SNR_vec.squeeze())):
         buckets[(int(c), snr_bucket(float(s)))].append(i)
 
     per_cell = max(1, batch // (num_classes * 4))
@@ -62,11 +113,12 @@ def make_balanced_class_snr_dataset(
         gen,
         output_signature=(
             tf.TensorSpec((None, X.shape[1], X.shape[2]), tf.float32),
-            tf.TensorSpec((None, num_classes),            tf.float32),
-            tf.TensorSpec((None, 1),                      tf.float32),
+            tf.TensorSpec((None, num_classes), tf.float32),
+            tf.TensorSpec((None, 1), tf.float32),
         ),
     )
 
+    # Phase rotation augmentation
     def phase_rotate(x):
         th = tf.random.uniform((), -np.pi, np.pi, dtype=x.dtype)
         c, s = tf.cos(th), tf.sin(th)
