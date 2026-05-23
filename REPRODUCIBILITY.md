@@ -4,7 +4,7 @@ This document provides step-by-step instructions for reproducing the reported va
 
 ---
 
-## Table 2: Overall Accuracy Comparison
+## Table 3: Overall Accuracy Comparison
 
 ### Full LowSNR-SCCTN Model (I/Q + SNR dB)
 
@@ -43,7 +43,7 @@ Refer to the original papers for their experimental protocols.
 
 ---
 
-## Table 3: Per-SNR Accuracy Comparison
+## Table 2: Per-SNR Accuracy Comparison
 
 ### Our Model (Full and I/Q-Only)
 
