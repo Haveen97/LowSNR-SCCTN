@@ -61,7 +61,7 @@ Refer to the original papers for their experimental protocols.
 
 ### Baseline Methods (Literature-Reported)
 
-The per-SNR accuracy values for baseline methods in Table 3 are reproduced from the respective original publications:
+The per-SNR accuracy values for baseline methods in Table 2 are reproduced from the respective original publications:
 - ICRNNA [11]: Per-SNR values for 10b from the original paper
 - TADCNN [31]: Per-SNR values for 10a from the original paper
 - CNN-BiLSTM-DNN [8]: Per-SNR values for both datasets from the original paper
