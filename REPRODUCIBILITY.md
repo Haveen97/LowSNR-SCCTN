@@ -18,7 +18,6 @@ This document provides step-by-step instructions for reproducing the reported va
 2. Place the files in the `data/` directory
 3. Run the training script for each dataset with all five seeds
 4. The script outputs the mean accuracy and standard deviation across seeds
-5. Results are saved in `results/table2_full_model.csv`
 
 ### I/Q-Only Variant
 
@@ -29,7 +28,6 @@ This document provides step-by-step instructions for reproducing the reported va
 
 **Steps:**
 1. Same as above, but set `--use_snr False` to disable SNR conditioning
-2. Results are saved in `results/table2_iq_only.csv`
 
 ### Baseline Methods
 
