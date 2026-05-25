@@ -1,10 +1,10 @@
 # Reproducibility Guide
 
-This document provides step-by-step instructions for reproducing the reported values in Tables 2 and 3 of the manuscript.
+This document provides step-by-step instructions for reproducing the reported results.
 
 ---
 
-## Table 3: Overall Accuracy Comparison
+## Overall Accuracy Comparison
 
 ### Full LowSNR-SCCTN Model (I/Q + SNR dB)
 
@@ -31,7 +31,7 @@ This document provides step-by-step instructions for reproducing the reported va
 
 ### Baseline Methods
 
-The baseline results in Table 3 are reproduced directly from the values reported in the respective original publications:
+The baseline results are reproduced directly from the values reported in the respective original publications:
 - TADCNN [31]: 66.64% (10a)
 - RLITNN [32]: 63.84% (10a), 65.32% (10b)
 - ICRNNA [11]: 63.24% (10a), 65.39% (10b)
@@ -43,7 +43,7 @@ Refer to the original papers for their experimental protocols.
 
 ---
 
-## Table 2: Per-SNR Accuracy Comparison
+## Per-SNR Accuracy Comparison
 
 ### Our Model (Full and I/Q-Only)
 
@@ -61,13 +61,12 @@ Refer to the original papers for their experimental protocols.
 
 ### Baseline Methods (Literature-Reported)
 
-The per-SNR accuracy values for baseline methods in Table 2 are reproduced from the respective original publications:
+The per-SNR accuracy values for baseline methods are reproduced from the respective original publications:
 - ICRNNA [11]: Per-SNR values for 10b from the original paper
 - TADCNN [31]: Per-SNR values for 10a from the original paper
 - CNN-BiLSTM-DNN [8]: Per-SNR values for both datasets from the original paper
 - MCLDNN [41]: Per-SNR values for both datasets from the original paper
 
-Empty entries in Table 2 indicate that the corresponding method did not report accuracy at that SNR level.
 
 ---
 
